@@ -1,0 +1,20 @@
+project {
+  name bar
+  output_directory foo
+  run_count 100
+  ; quit after five total fails occur
+  fails_threshhold 5
+  ; for passing tests, options are: compress (tar/gzip) or remove
+  
+  unit {
+      name baz 
+      run_script ./test_scripts/my_dummy_script.sh
+      run_count  1
+      options    ''
+      passing_tests remove
+  }
+
+}
+
+
+

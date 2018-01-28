@@ -1,0 +1,323 @@
+focus_js
+========
+:Author:    Tuleta Software Co.
+:Email:     <gene@tuletasoftware.com>
+:Date:      1/25/2018
+:Revision:  1.0
+
+
+Introduction
+------------
+*focus_js* is a multi-threaded desktop job scheduler.
+
+From command line parameters or from a simple config file, the user may use *focus_js* to efficiently run many instances of a
+program or script, in parallel on a linux-based desktop.
+
+*force_js* is a single binary application program, that runs in user space from the command line. No server software
+to start. No related software need be installed. The processes to be run are embodied in scripts or executables of
+the users choosing.
+
+link:focus_js_license.html[License, Copyright Notice - Please read, thanks]
+
+
+Requirements
+------------
+*focus_js* was compiled and linked using 'Gnu G++' version 5.4.0 and 'Ubuntu Linux' version 16.04.5.*
+
+NOTE: This version of Ubuntu linux looks to be pretty close to 'Centos' release 7.3-xxxx, but we have not confirmed this.
+
+You probably don't need or want to see the build information, but here it is anyway:
+
+Build Information
+-----------------
+----
+gene@gene-MS-7850:g++ --version
+g++ (Ubuntu 5.4.0-6ubuntu1~16.04.5) 5.4.0 20160609
+Copyright (C) 2015 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+gene@gene-MS-7850$ ldd bin/focus_js
+	linux-vdso.so.1 =>  (0x00007ffdba0a6000)
+	libstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007f0e008bf000)
+	libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007f0e005b6000)
+	libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007f0e003a0000)
+	libpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0 (0x00007f0e00183000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f0dffdb9000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007f0e00c41000)
+----
+
+To compile
+----------
+*focus_js* is written entirely in 'C\+\+'. The http://www.boost.org 'C++' libraries were used to assist with command line and
+job submissions file processing. http://doxygen.org was used to assist in documenting
+the source code. http://asciidoc.org was used to produce the user documentation.
+
+Quick start
+-----------
+The desktop computer we are using for this tutorial features an Intel Core I7 - four cores, two threads per core,
+for a total of eight 'hardware' threads.
+
+This first example runs *focus_js* from the command line, using an example script*. 
+
+NOTE: For the examples herein we are indirectly using the 'Tuleta Software' *a64sim* simulator. There is of course no requirement that this (simulator)
+software be installed. Instead you can use the '/opt/tuleta_software/focus_js/examples/my_dummy_script.sh' to confirm/try out *focus_js*.
+
+The cmdline to type is in *bold*...
+
+.Example#1 Run *focus_js* for the first time.
+[subs="quotes"]
+----
+gene@gene-MS-7850: */opt/tuleta_software/focus_js/bin/focus_js -O foo -P bar -U baz -R /opt/tuleta_software/focus_js/examples/a64sim_gen_only.sh -N 10*
+
+focus_js - the focus job server, 1.0 - Tuleta Software Co. Copyright 2018. All rights reserved.
+
+  Output directory: foo
+  Project: bar
+  Unit: baz
+  Script or program to execute: '/opt/tuleta_software/focus_js/examples/a64sim_gen_only.sh'
+  Number of jobs to run: 10
+  Compress passing job directories? no
+  Remove passing job directories? no
+
+WARNING: Passing test directories (as per request) will NOT be tar'd up, or removed.
+         The ability to repeatedly produce many tests will significantly impact disk space.
+
+# of job submissions: 1
+
+  Next submission:
+    # of files: 1
+    # of queued jobs: 10
+
+Total # of queued jobs: 10
+
+  # of 'hardware' threads: 8
+
+  Running...
+	100 % (10 out of 10) complete.
+  All done.
+
+  Elapsed time: 33.36 seconds (approx. 200 milliseconds per job)
+
+  # passes: 10
+  # fails:  0
+
+Runs directory: 'foo/bar'
+
+  Pass-fail summary: foo/bar/pass_fail_summary.csv
+----
+
+In the example above *force_js* command line options were used to specify and process a single 'job submission'. For this job submission,
+'foo' is the output directory path, 'bar' is the project name (a sub-directory within the output directory),
+and 'baz' is the unit name (a sub-directory within the project directory). The program to run
+is a shell script, 'a64sim_gen_only.sh', and the number of jobs to be run was 10.
+
+In effect, the request was to execute the 'a64sim_gen_only.sh' script ten times, each execution to take place
+in a unique run directory underneath the foo/bar/baz sub-directory.
+
+Note the number of 'hardware' threads displayed. This will vary of course base on what machine you use. The number of jobs (servers)
+run in parallel will be the number of 'hardware' threads, minus one (that last thread is used to run a 'monitor' process).
+
+NOTE: _focus_js should detect how many 'hardware' threads are supported by the processor in your computer. If not, or if you
+wish to experiment, there is a command line option ('-T' or 'thread_count') you may use to override the count. 
+
+Listing the foo/bar directory contents:
+----
+gene@gene-MS-7850: ls foo/bar
+baz  pass_fail_summary.csv
+----
+
+shows the baz unit-directory, and the 'pass/fail summary report'. The 'pass/fail summary report' is in the form of
+a 'csv' (comma-separated) spreadsheet.
+
+Listing the foo/bar/baz directory contents:
+----
+gene@gene-MS-7850: ls foo/bar/baz
+Sat_Dec_23_11:25:21_2017
+----
+
+should show a dated runs directory. Listing that directory yields:
+----
+gene@gene-MS-7850: ls foo/bar/baz/Sat_Dec_23_11:25:21_2017
+00000  00001  00002  00003  00004  00005  00006  00007  00008  00009
+----
+
+There is a unique numbered directory for each individual job run. Listing the first such directory:
+----
+gene@gene-MS-7850: ls foo/bar/baz/Sat_Dec_23_11:25:21_2017/00000
+gend_test.elf  gen.log  runlog.stderr  runlog.stdout
+----
+
+The 'a64sim_gen_only.sh' example shell script executed the *a64sim* simulator to produce the 'gend_test.elf' file, redirecting
+the output to the gen.log. The *a64sim* simulator was again executed, this time using the 'gend_test.elf' file as input.*
+
+*focus_js* in turn ran the 'a64sim_gen_only.sh' in a shell, redirecting standard out and standard error to the files
+runlog.stdout and runlog.stderr.
+
+NOTE: The shell script exit code should be set to zero (0) for a successful execution, or of course, to a non-zero value to
+indicate failure. The example scripts used herein are simple 'bourne shell' scripts. The scripts you choose to implement could be
+'csh', 'python', 'perl', 'haskell', etc., or any other scripting language or executable program.
+
+Speaking of disk space used (we weren't, but lets say we were), heres how much space the 'foo' output directory uses:
+----
+gene@gene-MS-7850:du -h foo
+136K	foo/bar/baz/Sat_Dec_23_11:25:21_2017/00002
+136K	foo/bar/baz/Sat_Dec_23_11:25:21_2017/00000
+136K	foo/bar/baz/Sat_Dec_23_11:25:21_2017/00009
+136K	foo/bar/baz/Sat_Dec_23_11:25:21_2017/00003
+136K	foo/bar/baz/Sat_Dec_23_11:25:21_2017/00007
+136K	foo/bar/baz/Sat_Dec_23_11:25:21_2017/00008
+136K	foo/bar/baz/Sat_Dec_23_11:25:21_2017/00001
+136K	foo/bar/baz/Sat_Dec_23_11:25:21_2017/00004
+136K	foo/bar/baz/Sat_Dec_23_11:25:21_2017/00006
+136K	foo/bar/baz/Sat_Dec_23_11:25:21_2017/00005
+1.4M	foo/bar/baz/Sat_Dec_23_11:25:21_2017
+1.4M	foo/bar/baz
+1.4M	foo/bar
+1.4M	foo
+----
+
+Ouch! We only made ten runs, but used over a meg of space. If we had submitted a large number of runs, a significant
+amount of disk space would be required. There are a couple of options you can use to mitigate the amount of storage
+chewed up.
+
+Use the _-Z_ (compress passes) option to cause each run directory to be tar'd and zip'd after execution. This
+will be performed for any passing program run (a run is considered to pass or fail based on the exit-code for
+the program or script under test).
+
+Use the _-K_ (clobber passes) option to cause each (passing) run directory to be removed after execution.
+Insofar as disk space goes, this is the best option.
+
+
+.Example#2 Run *focus_js* from the command line again, this time with a larger run count and using the 'compress' option...
+[subs="quotes"]
+----
+gene@gene-MS-7850: */opt/tuleta_software/focus_js/bin/focus_js -O foo -P bar -U baz -R /opt/tuleta_software/focus_js/examples/a64sim_gen_only.sh -N 1000 --compress_passes*
+
+focus_js - the focus job server, 1.0 - Tuleta Software Co. Copyright 2018. All rights reserved.
+
+  Output directory: foo
+  Project: bar
+  Unit: baz
+  Script or program to execute: '/opt/tuleta_software/focus_js/examples/a64sim_gen_only.sh'
+  Number of jobs to run: 1000
+  Compress passing job directories? yes
+  Remove passing job directories? no
+
+# of job submissions: 1
+
+  Next submission:
+    # of files: 1
+    # of queued jobs: 1000
+
+Total # of queued jobs: 1000
+
+  # of 'hardware' threads: 8
+
+  Running...
+	100 % (1000 out of 1000) complete.
+  All done.
+
+  Elapsed time: 150.04 seconds (approx. 15 milliseconds per job)
+
+  # passes: 1000
+  # fails:  0
+
+Runs directory: 'foo/bar'
+
+  Pass-fail summary: foo/bar/pass_fail_summary.csv
+
+gene@gene-MS-7850:~/Desktop/job_server$du -h foo
+50M	foo/bar/baz/Fri_Dec_29_11:58:41_2017
+50M	foo/bar/baz
+50M	foo/bar
+50M	foo
+----
+
+Okay, using _focus_js_ we generated and simulated a thousand tests, each test comprised of one thousand instructions. We used the
+_compress_passes_ cmdline option to cause all run directories to be tar'd and gzip'd. Even so, we still used 50M. Something to
+consider when you write your own tests to run.
+
+Note also the (approx) time per job went way down. Running 1k jobs across 'N' threads yields a much better utilitization of cpu time, then running just ten jobs.
+
+Lets purge the 'foo' directory, and run from the command line once more, using a couple more interesting options...
+
+.Example#3 Run *focus_js* from the command line again, with 1k run count and using the 'clobber' and 'fails_count' options...
+[subs="quotes"]
+----
+gene@gene-MS-7850: rm -rf foo
+
+gene@gene-MS-7850: */opt/tuleta_software/focus_js/bin/focus_js -O foo -P bar -U baz -R /opt/tuleta_software/focus_js/examples/a64sim_gen_only.sh -N 1000 -K -X 10*
+
+focus_js - the focus job server, 1.0 - Tuleta Software Co. Copyright 2018. All rights reserved.
+
+  Output directory: foo
+  Project: bar
+  Unit: baz
+  Script or program to execute: '/opt/tuleta_software/focus_js/examples/a64sim_gen_only.sh'
+  Number of jobs to run: 1000
+  Compress passing job directories? no
+  Remove passing job directories? yes
+
+# of job submissions: 1
+
+  Next submission:
+    # of files: 1
+    # of queued jobs: 1000
+
+Total # of queued jobs: 1000
+
+  # of 'hardware' threads: 8
+
+  Running...
+	100 % (1000 out of 1000) complete.
+  All done.
+
+  Elapsed time: 140.03 seconds (approx. 14 milliseconds per job)
+
+  # passes: 1000
+  # fails:  0
+
+Runs directory: 'foo/bar'
+
+  Pass-fail summary: foo/bar/pass_fail_summary.csv
+
+gene@gene-MS-7850:~/Desktop/job_server$du -u foo
+4.0K	foo/bar/baz/Fri_Dec_29_12:26:30_2017
+8.0K	foo/bar/baz
+16K	foo/bar
+20K	foo
+----
+
+We used the '-K' ('clobber') option to specify that run directories for any test that passes can safely be removed. We also specified (via the '-X' or 'fails_count' option) that we can tolerate no more than ten fails. Once this 'fails threshhold' is reached the job servers will shut down. Use these two options in concert when you want to run/test some potentially error prone process.
+
+When you run _force_js_ from the command line, you are specifying the parameters for a single 'job submission'. That 'job submission' could result in a single instance of execution of some process (perhaps not too interesting, but a good way to prove out your process before submitting 10k jobs!) or in a multitude of executions (hopefully what you had intended).
+
+Use the '-S' ('submissions_file') cmdline option to specify job submissions from file. Review the 'example_project.info' file in the _focus_js_ install/examples directory. Using the 'job submissions' file one could describe multiple job submissions in the form of multiple projects, or projects/units. For each job submission you can include a runs count, fails count, script to run, cmdline options, etc. A 'master' runs count and fails count could also be specified. The master runs count can be thought of as a repeat count. The master fails count applies to an entire _focus_js_ run.
+
+Use the '-F' (files) cmdline option to specify a list of files to process as input to the run script*. If the number of files submitted is say fifty, and the run count is one, then fifty instances of the run script will be executed, and the command line used to execute the run script will include one of the input files.
+
+NOTE: Its not literally a list of files, but a files 'pattern' such as '/srcs/*.elf'. To keep the file list pattern from being expanded
+by the shell when running _force_js_, enclose the pattern in single quotes. 
+
+Caveats
+-------
+In the current implementation there is no 'timeout' associated with either an individual instance of execution or  the set of
+job submission(s) as a whole.
+
+If this is a concern, run _focus_js_ via the 'linux' 'timeout' or similar program. Alternately, build some sort of timeout capability
+into the run script you implement.
+
+You may terminate _focus_js_ execution at any time by pressing 'ctrl-C'.
+
+
+Summary
+-------
+*focus_js* is a multi-threaded desktop job scheduler.
+
+From command line parameters or from a config file, the user may use *focus_js* to efficiently run many instances of a
+program or script, in parallel on a linux-based desktop.
+
+Cheers,
+
+The staff of Tuleta Software.

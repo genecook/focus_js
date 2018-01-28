@@ -1,0 +1,27 @@
+focus_js
+========
+:Author:    Tuleta Software Co.
+:Email:     <gene@tuletasoftware.com>
+:Date:      12/23/2017
+:Revision:  1.0
+
+Links/Acknowledgements
+----------------------
+
+Load balancers, job schedulers, there are many.
+
+Here are links to commercial job scheduling, typically used in cpu verification, plus
+a few interesting open-source schedulers...
+
+https://www.ibm.com/support/knowledgecenter/en/SSETD4/product_welcome_platform_lsf.html[IBM LSF]
+
+https://en.wikipedia.org/wiki/Oracle_Grid_Engine[Oracle Grid Engine]
+
+https://cgl.genomics.ucsc.edu/toil[UCSC Toil]
+
+https://en.wikipedia.org/wiki/Job_scheduler[Wiki - Job Scheduler]
+
+https://www.enkisoftware.com/devlogpost-20150822-1-Implementing-a-lightweight-task-scheduler[Task scheduler enkiTS]
+
+http://janeaddamspeace.org/[Jane Addams Peace Association]
+

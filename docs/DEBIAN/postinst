@@ -1,0 +1,4 @@
+#!/bin/sh
+
+echo The focus_js job server is now installed. See /opt/tuleta_software/focus_js/docs/focus_js_quick_start.html
+

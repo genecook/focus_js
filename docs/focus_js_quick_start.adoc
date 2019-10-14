@@ -59,7 +59,7 @@ for a total of eight 'hardware' threads.
 This first example runs *focus_js* from the command line, using an example script*. 
 
 NOTE: For the examples herein we are indirectly using the 'Tuleta Software' *a64sim* simulator. There is of course no requirement that this (simulator)
-software be installed. Instead you can use the '/opt/tuleta_software/focus_js/examples/my_dummy_script.sh' to confirm/try out *focus_js*.
+software be installed. Instead you can use the 'focus_js/examples/my_dummy_script.sh' to confirm/try out *focus_js*.
 
 The cmdline to type is in *bold*...
 

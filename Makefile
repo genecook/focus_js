@@ -2,7 +2,6 @@
 # Makefile to build focus - the focus job-server.
 #
 #   Copyright  © 2017,2018 Tuleta Software, Inc.
-#   (Reference ./docs/focus_js_license.html)
 #**************************************************************************
 
 CPP      = g++

@@ -20,7 +20,7 @@ the users choosing.
 
 Requirements
 ------------
-*focus_js* was compiled and linked using 'Gnu G++' version 5.4.0 and 'Ubuntu Linux' version 16.04.5.*
+*focus_js* was compiled and linked using 'Gnu G++' version 5.4.0 and 'Ubuntu Linux' version 16.04.*
 
 NOTE: This version of Ubuntu linux looks to be pretty close to 'Centos' release 7.3-xxxx, but we have not confirmed this.
 

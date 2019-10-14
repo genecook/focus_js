@@ -3,7 +3,6 @@ efficently schedule and run many thousands of individual jobs on a single
 desktop client. **focus_js** started out as an internal tool, developed specifically
 for use in testing a new microprocessor simulator implementation.
 
-To use, either download and compile of course, or use one of the packaged releases (*debian* package or *gzip'd/tar* file). The packaged releases were compiled using *Gnu G++* version 5.4.0 and *Ubuntu Linux* version 16.04.5.
+To use, either download and compile of course, or use one of the packaged releases (*debian* package or *gzip'd/tar* file). The packaged releases were compiled using *Gnu G++* version 5.4.0 and *Ubuntu Linux* version 16.04.
 
-The packaged releases includes a formatted version of the quick-start guide. As time permits I'll post that here as well.
 [Quick Start](docs/focus_js_quick_start.adoc)

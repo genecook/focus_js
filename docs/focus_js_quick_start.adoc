@@ -17,8 +17,6 @@ program or script, in parallel on a linux-based desktop.
 to start. No related software need be installed. The processes to be run are embodied in scripts or executables of
 the users choosing.
 
-link:focus_js_license.html[License, Copyright Notice - Please read, thanks]
-
 
 Requirements
 ------------

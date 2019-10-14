@@ -23,5 +23,5 @@ https://en.wikipedia.org/wiki/Job_scheduler[Wiki - Job Scheduler]
 
 https://www.enkisoftware.com/devlogpost-20150822-1-Implementing-a-lightweight-task-scheduler[Task scheduler enkiTS]
 
-http://janeaddamspeace.org/[Jane Addams Peace Association]
+http://janeaddamspeace.org/[Jane Addams Peace Association] - not a job scheduler or load balancer. Peace.
 

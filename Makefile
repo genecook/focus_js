@@ -5,7 +5,7 @@
 #**************************************************************************
 
 CPP      = g++
-BOOSTLIB = /usr/local/lib/libboost_program_options.a
+BOOSTLIB = /usr/lib/x86_64-linux-gnu/libboost_program_options.a
 
 DOXYGEN  = /usr/bin/doxygen
 

@@ -2,13 +2,14 @@ focus_js
 ========
 :Author:    Tuleta Software Co.
 :Email:     <gene@tuletasoftware.com>
-:Date:      12/23/2017
-:Revision:  1.0
+:Date:      10/23/2019
+:Revision:  1.1
 
 Links/Acknowledgements
 ----------------------
 
 Load balancers, job schedulers, there are many.
+
 
 Here are links to commercial job scheduling, typically used in cpu verification, plus
 a few interesting open-source schedulers...

@@ -2,8 +2,8 @@ focus_js
 ========
 :Author:    Tuleta Software Co.
 :Email:     <gene@tuletasoftware.com>
-:Date:      1/25/2018
-:Revision:  1.0
+:Date:      10/23/2019
+:Revision:  1.1
 
 
 Introduction
@@ -20,7 +20,7 @@ the users choosing.
 
 Requirements
 ------------
-*focus_js* was compiled and linked using 'Gnu G++' version 5.4.0 and 'Ubuntu Linux' version 16.04.*
+*focus_js* was initially compiled and linked using 'Gnu G++' version 5.4.0 and 'Ubuntu Linux' version 16.04.*
 
 NOTE: This version of Ubuntu linux looks to be pretty close to 'Centos' release 7.3-xxxx, but we have not confirmed this.
 
@@ -66,7 +66,8 @@ The cmdline to type is in *bold*...
 .Example#1 Run *focus_js* for the first time.
 [subs="quotes"]
 ----
-gene@gene-MS-7850: */opt/tuleta_software/focus_js/bin/focus_js -O foo -P bar -U baz -R /opt/tuleta_software/focus_js/examples/a64sim_gen_only.sh -N 10*
+gene@gene-MS-7850: */opt/tuleta_software/focus_js/bin/focus_js -O foo -P bar -U baz \
+                                -R /opt/tuleta_software/focus_js/examples/a64sim_gen_only.sh -N 10*
 
 focus_js - the focus job server, 1.0 - Tuleta Software Co. Copyright 2018. All rights reserved.
 
